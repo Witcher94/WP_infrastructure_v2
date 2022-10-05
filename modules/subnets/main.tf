@@ -14,7 +14,7 @@ resource "google_compute_subnetwork" "subs" {
     ] : []
     content {
       aggregation_interval = log_config.value.aggregation_interval
-      flow_sampling        = log_config.value.flow_samplinggit
+      flow_sampling        = log_config.value.flow_sampling
       metadata             = log_config.value.metadata
       filter_expr          = log_config.value.filter_expr
     }
