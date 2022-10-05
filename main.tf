@@ -24,7 +24,7 @@ module "subnet" {
   }
 }
 module "firewall" {
-  source = "./modules/firewall"
+  source  = "./modules/firewall"
   network = module.vpc.network
   rules = {
     private = {
@@ -37,9 +37,9 @@ module "firewall" {
       source_service_accounts = null
       target_tags             = null
       target_service_accounts = null
-       allow =[{
-      protocol = "tcp"
-      ports    = ["22"]
+      allow = [{
+        protocol = "tcp"
+        ports    = ["22"]
       }]
       deny = []
     }

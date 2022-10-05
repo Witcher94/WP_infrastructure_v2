@@ -1,5 +1,5 @@
 resource "google_compute_firewall" "rules" {
-  for_each = var.rules
+  for_each                = var.rules
   name                    = each.value.name
   description             = each.value.description
   direction               = each.value.direction

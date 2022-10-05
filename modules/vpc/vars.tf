@@ -1,4 +1,5 @@
 variable "network_name" {
+  type        = string
   description = "The name of the network being created"
 }
 
@@ -30,4 +31,24 @@ variable "mtu" {
   type        = number
   description = "The network MTU (If set to 0, meaning MTU is unset - defaults to '1460')."
   default     = 0
+}
+variable "router_name" {
+  type        = string
+  description = "Router default name"
+  default     = "WP-Router"
+}
+variable "nat_name" {
+  type        = string
+  description = "Nat default name"
+  default     = "WP_Nat"
+}
+variable "allocate_option" {
+  type        = string
+  description = "nat_ip_allocate_option - How external IPs should be allocated for this NAT."
+  default     = "AUTO_ONLY"
+}
+variable "ip_ranges_to_nat" {
+  type        = string
+  description = "source_subnetwork_ip_ranges_to_nat - How NAT should be configured per Subnetwork"
+  default     = "ALL_SUBNETWORKS_ALL_IP_RANGES"
 }
