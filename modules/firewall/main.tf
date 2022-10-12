@@ -1,16 +1,16 @@
 resource "google_compute_firewall" "rules" {
   for_each                = var.rules
   name                    = each.value.name
-  description             = each.value.description
+  description             = lookup(each.value, "description", null)
   direction               = each.value.direction
   network                 = var.network.name
   source_ranges           = each.value.direction == "INGRESS" ? each.value.ranges : null
   destination_ranges      = each.value.direction == "EGRESS" ? each.value.ranges : null
-  source_tags             = each.value.source_tags
-  source_service_accounts = each.value.source_service_accounts
-  target_tags             = each.value.target_tags
-  target_service_accounts = each.value.target_service_accounts
-  priority                = each.value.priority
+  source_tags             = lookup(each.value, "source_tags", null)
+  source_service_accounts = lookup(each.value, "source_service_accounts ", null)
+  target_tags             = lookup(each.value, "target_tags ", null)
+  target_service_accounts = lookup(each.value, "target_service_accounts", null)
+  priority                = lookup(each.value, "priority", null)
 
   dynamic "allow" {
     for_each = lookup(each.value, "allow", [])

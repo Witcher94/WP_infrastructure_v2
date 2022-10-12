@@ -35,12 +35,12 @@ variable "mtu" {
 variable "router_name" {
   type        = string
   description = "Router default name"
-  default     = "WP-Router"
+  default     = "wp-router"
 }
 variable "nat_name" {
   type        = string
   description = "Nat default name"
-  default     = "WP_Nat"
+  default     = "wp-nat"
 }
 variable "allocate_option" {
   type        = string

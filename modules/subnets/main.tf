@@ -2,7 +2,7 @@ resource "google_compute_subnetwork" "subs" {
   for_each                 = var.subnets
   ip_cidr_range            = each.value.ip
   name                     = each.value.name
-  private_ip_google_access = lookup(each.value, "subnet_private_access", "false")
+  private_ip_google_access = lookup(each.value, "subnet_private_access", false)
   dynamic "log_config" {
     for_each = lookup(each.value, "subnet_flow_logs", false) ? [
       {
