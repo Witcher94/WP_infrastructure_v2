@@ -1,5 +1,5 @@
 provider "google" {
-  project = "pfaka-education-25433"
+  project = local.project
   region  = local.region
   zone    = "${local.region}-c"
 }
