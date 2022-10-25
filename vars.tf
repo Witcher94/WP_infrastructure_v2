@@ -114,20 +114,51 @@ variable "members" {
   description = ""
   default     = [""]
 }
+#input variables for secret-manager module
+variable "length" {
+  type    = number
+  default = 10
+}
+variable "min_upper" {
+  type    = number
+  default = 2
+}
+variable "min_lower" {
+  type    = number
+  default = 2
+}
+variable "min_numeric" {
+  type    = number
+  default = 2
+}
+variable "min_special" {
+  type    = number
+  default = 2
+}
+variable "secret_id" {
+  type        = string
+  description = "wp-secret"
+  default     = "wp-secret"
+}
+variable "labels" {
+  type    = string
+  default = "first_secret"
+}
 #Input Variables for cloud-sql module
 variable "db-node-name" {
   type        = string
   description = ""
+  default     = "wp-node"
 }
 variable "db-version" {
   type        = string
   description = ""
-  default     = "MYSQL_8_0"
+  default     = "MYSQL_5_7"
 }
 variable "deletion_protection" {
   type        = bool
   description = ""
-  default     = true
+  default     = false
 }
 variable "tier" {
   type        = string
@@ -138,4 +169,14 @@ variable "ipv4_enabled" {
   type        = bool
   description = ""
   default     = false
+}
+variable "db-name" {
+  type        = string
+  description = ""
+  default     = "wp-database"
+}
+variable "db-username" {
+  type        = string
+  description = ""
+  default     = "wp-user"
 }

@@ -28,6 +28,16 @@ module "service-account" {
   members    = [""]
   roles      = var.roles
 }
+module "secret-manager" {
+  source      = "./modules/secret-manager"
+  length      = var.length
+  min_upper   = var.min_upper
+  min_lower   = var.min_lower
+  min_numeric = var.min_numeric
+  min_special = var.min_special
+  secret_id   = var.secret_id
+  labels      = var.labels
+}
 module "cloud-sql" {
   source              = "./modules/cloud_sql"
   vpc-network         = module.vpc.network
@@ -37,6 +47,7 @@ module "cloud-sql" {
   deletion_protection = var.deletion_protection
   tier                = var.tier
   ipv4_enabled        = var.ipv4_enabled
+  db-name             = var.db-name
+  db-username         = var.db-username
+  db-password         = module.secret-manager.secret
 }
-
-

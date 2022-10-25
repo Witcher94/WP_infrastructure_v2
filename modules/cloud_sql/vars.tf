@@ -28,3 +28,14 @@ variable "ipv4_enabled" {
   description = ""
   default     = false
 }
+variable "db-name" {
+  type        = string
+  description = ""
+}
+variable "db-username" {
+  type        = string
+  description = ""
+}
+variable "db-password" {
+
+}
