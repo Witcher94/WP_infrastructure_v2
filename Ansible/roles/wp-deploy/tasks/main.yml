@@ -1,4 +1,20 @@
 #install all dependencies for correct work of wordpress
+- name: update & upgrade
+  ansible.builtin.apt:
+    upgrade: yes
+    update_cache: 'true'
+  become: true
+
+- name: gcsfuse install
+  ansible.builtin.shell: |
+    export GCSFUSE_REPO=gcsfuse-`lsb_release -c -s`
+    echo "deb http://packages.cloud.google.com/apt $GCSFUSE_REPO main" | sudo tee /etc/apt/sources.list.d/gcsfuse.list
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+    sudo apt update
+    sudo apt install gcsfuse -y
+    sudo echo user_allow_other >> /etc/fuse.conf
+  become: true
+
 - name: installing all dependencies
   apt:
     name: '{{item}}'
@@ -57,24 +73,34 @@
     name: rewrite
     state: present
   become: true
-  when: "'web-servers' in group_names"
+  notify:
+    -restart apache
 
-#Change fuse.conf file for enable "allow_other" attribute
-
-- name: upload fuse.conf
-  ansible.builtin.copy:
-    src: /ansible/roles/wp-deploy/files/fuse.conf
-    dest: /etc/fuse.conf
-    owner: pfaka
-    mode: '0644'
+- name: download wordpress
+  ansible.builtin.shell: |
+    (cd /mnt && sudo -u pfaka wget https://wordpress.org/latest.zip)
+    (cd /mnt && sudo -u pfaka unzip latest.zip)
+    (cd /mnt/wordpress/wp-content/plugins && wget https://downloads.wordpress.org/plugin/ssl-insecure-content-fixer.2.7.2.zip)
+    (cd /mnt/wordpress/wp-content/plugins && unzip ssl-insecure-content-fixer.2.7.2.zip)
+    (cd /mnt/wordpress/wp-content/plugins && rm -rf ssl-insecure-content-fixer.2.7.2.zip)
+    sudo chmod 777 /mnt/wordpress -R
   become: true
-  when: "'web-servers' in group_names"
 
-#Mounting bucket to vm
+- name: upload wordpress to bucket
+  ansible.builtin.shell: |
+    (cd /mnt && sudo chown www-data:www-data wordpress -R)
+    (cd /mnt && sudo -u pfaka gsutil -m cp -r wordpress/* gs://{{bucket}})
+    (cd /mnt && sudo -u pfaka rm latest.zip)
+    (cd /mnt && sudo -u pfaka rm -rf wordpress)
+  become: true
+
+- name:
+  ansible.builtin.shell: |
+    (gcsfuse -o nonempty -o allow_other --dir-mode 755 {{bucket}} /mnt)
+  become: true
 
 - name: Create symbolic link
   file:
     src: "/mnt"
     dest: "/var/www/"
     state: link
-  when: "'web-servers' in group_names"

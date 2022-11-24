@@ -102,7 +102,7 @@ variable "rules" {
 variable "account_id" {
   type        = string
   description = ""
-  default     = "first-sa"
+  default     = "wp-sa"
 }
 variable "roles" {
   type        = set(string)
