@@ -94,11 +94,6 @@
     (cd /mnt && sudo -u pfaka rm -rf wordpress)
   become: true
 
-- name:
-  ansible.builtin.shell: |
-    (gcsfuse -o nonempty -o allow_other --dir-mode 755 {{bucket}} /mnt)
-  become: true
-
 - name: Create symbolic link
   file:
     src: "/mnt"

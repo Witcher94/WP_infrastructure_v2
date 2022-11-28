@@ -2,10 +2,10 @@ resource "random_password" "password" {
   length           = var.length
   special          = true
   override_special = "!#$%&*()-_=+[]{}<>:?"
-  min_upper        = 0 ? var.min_upper : 2
-  min_lower        = 0 ? var.min_lower : 2
-  min_numeric      = 0 ? var.min_numeric : 2
-  min_special      = 0 ? var.min_special : 2
+  min_upper        = var.min_upper <= 0 ? 0 : var.min_upper
+  min_lower        = var.min_lower <= 0 ? 0 : var.min_lower
+  min_numeric      = var.min_numeric <= 0 ? 0 : var.min_numeric
+  min_special      = var.min_special <= 0 ? 0 : var.min_special
 }
 resource "google_secret_manager_secret" "wp-db-secret" {
   secret_id = var.secret_id

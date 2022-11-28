@@ -6,6 +6,9 @@ packer {
     }
   }
 }
+variable "account_file" {
+  type = string
+}
 
 variable "priv-subnet" {
   type = string
@@ -51,15 +54,13 @@ variable "machine-type" {
   type = string
 }
 
+
 source "googlecompute" "conf" {
   project_id                   = var.project
+  account_file                 = var.account_file
   source_image                 = var.source-image
   machine_type                 = var.machine-type
   ssh_username                 = var.username
-  ssh_private_key_file         = var.ssh-private-key-path
-  ssh_bastion_username         = var.username
-  ssh_bastion_host             = var.bastion-ip
-  ssh_bastion_private_key_file = var.ssh-private-key-path
   zone                         = var.zone
   tags                         = ["packer"]
   use_internal_ip              = true

@@ -5,6 +5,11 @@ locals {
   zone     = "${local.region}-c"
 }
 #Input Variables for VPC module
+variable "name" {
+  type        = string
+  description = "Name for all of the services"
+  default     = "wordpress"
+}
 variable "network_name" {
   type        = string
   description = "VPC name related to VPC module"
@@ -104,7 +109,7 @@ variable "rules" {
 variable "account_id" {
   type        = string
   description = ""
-  default     = "wp-sa"
+  default     = "wp-service-account"
 }
 variable "roles" {
   type        = set(string)
@@ -189,12 +194,9 @@ variable "bucket-name" {
   default     = "wp-bucket"
 }
 #Packer image
-variable "packer-image-name" {
+variable "image-name" {
   type = string
 }
 variable "playbook-path" {
-  type = string
-}
-variable "ansible-extra-vars" {
   type = string
 }

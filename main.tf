@@ -1,13 +1,11 @@
 module "vpc" {
   source                                 = "./modules/vpc"
-  network_name                           = var.network_name
+  name                                   = var.name
   description                            = var.description
   auto_create_subnetworks                = var.auto_create_subnetworks
   delete_default_internet_gateway_routes = var.delete_default_internet_gateway_routes
   routing_mode                           = var.routing_mode
   mtu                                    = var.mtu
-  router_name                            = var.router_name
-  nat_name                               = var.nat_name
   allocate_option                        = var.allocate_option
   ip_ranges_to_nat                       = var.ip_ranges_to_nat
 }
@@ -41,7 +39,7 @@ module "secret-manager" {
 module "cloud-sql" {
   source              = "./modules/cloud_sql"
   vpc-network         = module.vpc.network
-  db-node-name        = var.db-node-name
+  db-node-name        = var.name
   db-version          = var.db-version
   region              = local.region
   deletion_protection = var.deletion_protection
@@ -54,20 +52,20 @@ module "cloud-sql" {
 module "cloud-storage" {
   source          = "./modules/cloud_storage"
   prefix          = module.cloud-sql.prefix
-  bucket-name     = var.bucket-name
+  bucket-name     = var.name
   region          = local.region
   service-account = module.service-account.service-account
   depends_on      = [module.cloud-sql]
 }
 module "packer" {
   source              = "./modules/packer"
-  subnet              = module.subnet.subnets["priv"].id
+  subnet              = module.subnet.subnets["private"].id
   project             = local.project
   zone                = "${local.region}-c"
-  image-name          = var.packer-image-name
+  image-name          = var.image-name
   source-image        = var.tier
   ssh-username        = local.username
   packer-machine-type = var.tier
   playbook            = var.playbook-path
-  ansible-extra-vars  = var.ansible-extra-vars
+  ansible-extra-vars  = "bucket=${module.cloud-storage.bucket} db_ip=${module.cloud-sql.db-ip} password=${module.secret-manager.secret}"
 }

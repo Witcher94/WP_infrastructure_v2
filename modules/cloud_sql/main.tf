@@ -1,5 +1,5 @@
 resource "random_id" "bucket_prefix" {
-  byte_length = 8
+  byte_length = 4
 }
 resource "google_compute_global_address" "private-ip-address" {
   name          = "private-ip-address"
@@ -19,7 +19,7 @@ resource "google_service_networking_connection" "replica-private-vpc-db-connecti
   reserved_peering_ranges = [google_compute_global_address.private-ip-address.name]
 }
 resource "google_sql_database_instance" "wordpress-db" {
-  name                = "${var.db-node-name}-${random_id.bucket_prefix.hex}"
+  name                = "${var.db-node-name}-main-${random_id.bucket_prefix.hex}"
   database_version    = var.db-version
   region              = var.region
   deletion_protection = var.deletion_protection

@@ -1,4 +1,4 @@
-variable "network_name" {
+variable "name" {
   type        = string
   description = "The name of the network being created"
 }
@@ -31,16 +31,6 @@ variable "mtu" {
   type        = number
   description = "The network MTU (If set to 0, meaning MTU is unset - defaults to '1460')."
   default     = 0
-}
-variable "router_name" {
-  type        = string
-  description = "Router default name"
-  default     = "wp-router"
-}
-variable "nat_name" {
-  type        = string
-  description = "Nat default name"
-  default     = "wp-nat"
 }
 variable "allocate_option" {
   type        = string

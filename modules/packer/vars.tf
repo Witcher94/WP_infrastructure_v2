@@ -23,9 +23,9 @@ variable "source-image" {
 }
 
 
-variable "bastion-ip" {
-  type = string
-}
+#variable "bastion-ip" {
+#  type = string
+#}
 
 
 #variable "ssh-private-key-path" {
