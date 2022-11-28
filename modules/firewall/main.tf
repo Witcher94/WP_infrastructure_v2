@@ -7,8 +7,8 @@ resource "google_compute_firewall" "rules" {
   source_ranges           = each.value.direction == "INGRESS" ? each.value.ranges : null
   destination_ranges      = each.value.direction == "EGRESS" ? each.value.ranges : null
   source_tags             = lookup(each.value, "source_tags", null)
-  source_service_accounts = lookup(each.value, "source_service_accounts ", null)
-  target_tags             = lookup(each.value, "target_tags ", null)
+  source_service_accounts = lookup(each.value, "source_service_accounts", null)
+  target_tags             = lookup(each.value, "target_tags", null)
   target_service_accounts = lookup(each.value, "target_service_accounts", null)
   priority                = lookup(each.value, "priority", null)
 

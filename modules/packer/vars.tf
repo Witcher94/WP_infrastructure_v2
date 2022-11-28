@@ -28,9 +28,9 @@ variable "bastion-ip" {
 }
 
 
-variable "ssh-private-key-path" {
-  type = string
-}
+#variable "ssh-private-key-path" {
+#  type = string
+#}
 
 
 variable "ssh-username" {

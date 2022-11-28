@@ -1,6 +1,8 @@
 locals {
-  project = "pfaka-education-25433"
-  region  = "europe-west3"
+  username = "pfaka"
+  project  = "${local.username}-education-25433"
+  region   = "europe-west3"
+  zone     = "${local.region}-c"
 }
 #Input Variables for VPC module
 variable "network_name" {
@@ -179,4 +181,20 @@ variable "db-username" {
   type        = string
   description = ""
   default     = "wp-user"
+}
+#Cloud storage module
+variable "bucket-name" {
+  type        = string
+  description = ""
+  default     = "wp-bucket"
+}
+#Packer image
+variable "packer-image-name" {
+  type = string
+}
+variable "playbook-path" {
+  type = string
+}
+variable "ansible-extra-vars" {
+  type = string
 }

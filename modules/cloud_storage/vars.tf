@@ -7,3 +7,6 @@ variable "region" {
 variable "service-account" {
   type = string
 }
+variable "prefix" {
+  type = string
+}

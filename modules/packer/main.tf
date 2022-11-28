@@ -7,8 +7,8 @@ packer build \
  -var 'zone=${var.zone}'\
  -var 'image-name=${var.image-name}' \
  -var 'source-image=${var.source-image}' \
- -var 'bastion-ip=${var.bastion-ip}' \
- -var 'ssh-private-key-path=${var.ssh-private-key-path}' \
+
+
  -var 'username=${var.ssh-username}' \
  -var 'machine-type=${var.packer-machine-type}' \
  -var 'playbook=${var.playbook}' \
@@ -18,3 +18,11 @@ sleep 25
 EOF
   }
 }
+#resource "null_resource" "destroy-image" {
+#    provisioner "local-exec" {
+#    when    = destroy
+#    command = "gcloud compute images delete ${var.image-name}"
+#  }
+#}
+## -var 'bastion-ip=${var.bastion-ip}' \
+# -var 'ssh-private-key-path=${var.ssh-private-key-path}' \

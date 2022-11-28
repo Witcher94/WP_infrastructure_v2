@@ -52,9 +52,22 @@ module "cloud-sql" {
   db-password         = module.secret-manager.secret
 }
 module "cloud-storage" {
-  source = "./modules/cloud_storage"
-  prefix = module.cloud-sql.prefix
-  bucket-name = var.bucket-name
-  region = local.region
+  source          = "./modules/cloud_storage"
+  prefix          = module.cloud-sql.prefix
+  bucket-name     = var.bucket-name
+  region          = local.region
   service-account = module.service-account.service-account
+  depends_on      = [module.cloud-sql]
+}
+module "packer" {
+  source              = "./modules/packer"
+  subnet              = module.subnet.subnets["priv"].id
+  project             = local.project
+  zone                = "${local.region}-c"
+  image-name          = var.packer-image-name
+  source-image        = var.tier
+  ssh-username        = local.username
+  packer-machine-type = var.tier
+  playbook            = var.playbook-path
+  ansible-extra-vars  = var.ansible-extra-vars
 }
