@@ -6,9 +6,9 @@ packer {
     }
   }
 }
-variable "account_file" {
-  type = string
-}
+#variable "account_file" {
+#  type = string
+#}
 
 variable "priv-subnet" {
   type = string
@@ -30,9 +30,9 @@ variable "source-image" {
   type = string
 }
 
-variable "bastion-ip" {
-  type = string
-}
+#variable "bastion-ip" {
+#  type = string
+#}
 
 variable "playbook" {
   type = string
@@ -42,9 +42,9 @@ variable "ansible-extra-vars" {
   type = string
 }
 
-variable "ssh-private-key-path" {
-  type = string
-}
+#variable "ssh-private-key-path" {
+#  type = string
+#}
 
 variable "username" {
   type = string
@@ -57,13 +57,13 @@ variable "machine-type" {
 
 source "googlecompute" "conf" {
   project_id                   = var.project
-  account_file                 = var.account_file
+#  account_file                 = var.account_file
   source_image                 = var.source-image
   machine_type                 = var.machine-type
   ssh_username                 = var.username
   zone                         = var.zone
   tags                         = ["packer"]
-  use_internal_ip              = true
+  use_internal_ip              = false
   subnetwork                   = var.priv-subnet
   image_name                   = var.image-name
 }
@@ -74,7 +74,7 @@ build {
   provisioner "ansible" {
     playbook_file = var.playbook
     extra_arguments = [
-      # "-vvvv",
+      #"-vvvv",
       "--extra-vars",
       "${var.ansible-extra-vars}"
     ]

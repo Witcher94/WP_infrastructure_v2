@@ -1,5 +1,5 @@
 resource "random_id" "bucket_prefix" {
-  byte_length = 4
+  byte_length = 2
 }
 resource "google_compute_global_address" "private-ip-address" {
   name          = "private-ip-address"

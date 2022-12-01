@@ -3,6 +3,7 @@ locals {
   project  = "${local.username}-education-25433"
   region   = "europe-west3"
   zone     = "${local.region}-c"
+  ig-zones = ["${local.region}-a", "${local.region}-b", "${local.region}-c"]
 }
 #Input Variables for VPC module
 variable "name" {
@@ -114,7 +115,7 @@ variable "account_id" {
 variable "roles" {
   type        = set(string)
   description = "roles"
-  default     = ["roles/iap.tunnelResourceAccessor", "roles/compute.instanceAdmin.v1", "roles/iam.serviceAccountUser"]
+  default     = ["roles/iap.tunnelResourceAccessor", "roles/compute.instanceAdmin.v1", "roles/iam.serviceAccountUser", "roles/storage.admin"]
 }
 variable "members" {
   type        = list(string)
@@ -197,6 +198,61 @@ variable "bucket-name" {
 variable "image-name" {
   type = string
 }
-variable "playbook-path" {
+variable "playbook" {
   type = string
+}
+variable "source-image" {
+  type = string
+}
+variable "account_file" {
+  type = string
+}
+variable "packer-machine-type" {
+  type = string
+}
+#instance-group
+variable "instance-machine-type" {
+  type        = string
+  description = ""
+  default     = "e2-micro"
+}
+variable "ig-tags" {
+  type        = list(string)
+  description = ""
+  default     = ["wordpress", ]
+}
+variable "startup-path" {
+  type        = string
+  description = ""
+  default     = "./modules/instance-group/gcloud-startup-script.sh"
+}
+variable "port-name" {
+  type        = string
+  description = ""
+  default     = "http"
+}
+variable "port-number" {
+  type        = number
+  description = ""
+  default     = 80
+}
+variable "interval" {
+  type        = number
+  description = ""
+  default     = 20
+}
+variable "timeout" {
+  type        = number
+  description = ""
+  default     = 5
+}
+variable "healthy" {
+  type        = number
+  description = ""
+  default     = 2
+}
+variable "unhealthy" {
+  type        = number
+  description = ""
+  default     = 5
 }

@@ -51,3 +51,6 @@ variable "playbook" {
 variable "ansible-extra-vars" {
   type = string
 }
+variable "account-file" {
+  type = string
+}
