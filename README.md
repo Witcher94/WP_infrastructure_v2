@@ -2,7 +2,7 @@
 ## About
 This is educational task for provisioning wordpress infrastructure on Google Cloud Provider
 ## Scheme
-![Scheme](img.png)
+![](graph.svg)
 ## Requirements
 No requirements.
 ## Providers
