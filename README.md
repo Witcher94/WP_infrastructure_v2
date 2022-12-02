@@ -1,8 +1,10 @@
 <!-- BEGIN_TF_DOCS -->
+## About
+This is educational task for provisioning wordpress infrastructure on Google Cloud Provider
+## Scheme
+![Scheme](img.png)
 ## Requirements
-
 No requirements.
-
 ## Providers
 
 | Name | Version |
@@ -81,8 +83,3 @@ No requirements.
 | <a name="input_tier"></a> [tier](#input\_tier) | Standard DB machine tier | `string` | `"db-f1-micro"` | no |
 | <a name="input_timeout"></a> [timeout](#input\_timeout) | n/a | `number` | `5` | no |
 | <a name="input_unhealthy"></a> [unhealthy](#input\_unhealthy) | n/a | `number` | `5` | no |
-
-## Outputs
-
-No outputs.
-<!-- END_TF_DOCS -->
