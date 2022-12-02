@@ -1,6 +1,6 @@
 resource "google_service_account" "service_account" {
-  account_id   = var.account_id
-  display_name = var.account_id
+  account_id   = coalesce(var.account_id, "${var.name}-service-account")
+  display_name = coalesce(var.account_id, "${var.name}-service-account")
 }
 resource "google_project_iam_binding" "project" {
   for_each = var.roles

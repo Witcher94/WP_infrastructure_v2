@@ -11,11 +11,6 @@ variable "name" {
   description = "Name for all of the services"
   default     = "wordpress"
 }
-variable "network_name" {
-  type        = string
-  description = "VPC name related to VPC module"
-  default     = "wp-network"
-}
 variable "description" {
   type        = string
   description = "An optional description of this resource. The resource must be recreated to modify this field. Related to VPC module"
@@ -40,16 +35,6 @@ variable "mtu" {
   type        = number
   description = "The network MTU (If set to 0, meaning MTU is unset - defaults to '1460')."
   default     = 0
-}
-variable "router_name" {
-  type        = string
-  description = "Router default name"
-  default     = "wp-router"
-}
-variable "nat_name" {
-  type        = string
-  description = "Nat default name"
-  default     = "wp-nat"
 }
 variable "allocate_option" {
   type        = string
@@ -109,13 +94,14 @@ variable "rules" {
 #Input Variables for service-account module
 variable "account_id" {
   type        = string
-  description = "standard id for service account"
-  default     = "wp-service-account"
+  description = "Change for other id and display-name for SA, by default in format var.name-service-account"
+  default     = ""
 }
 variable "roles" {
   type        = set(string)
   description = "defined roles"
-  default     = ["roles/iap.tunnelResourceAccessor", "roles/compute.instanceAdmin.v1", "roles/iam.serviceAccountUser", "roles/storage.admin"]
+  default     = ["roles/iap.tunnelResourceAccessor", "roles/compute.instanceAdmin.v1", "roles/iam.serviceAccountUser",
+    "roles/storage.admin"]
 }
 variable "members" {
   type        = list(string)
@@ -275,4 +261,24 @@ variable "target" {
   type        = number
   description = ""
   default     = 0.9
+}
+variable "https-port-range" {
+  type = number
+  description = ""
+  default = 443
+}
+variable "redirect-port-range" {
+  type = number
+  description = ""
+  default = 80
+}
+variable "domain" {
+  type = string
+  description = ""
+  default = ".pp.ua."
+}
+variable "capacity-scaler" {
+  type = number
+  description = ""
+  default = 1.0
 }

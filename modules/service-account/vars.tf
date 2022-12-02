@@ -11,3 +11,6 @@ variable "account_id" {
 variable "members" {
   type = list(string)
 }
+variable "name" {
+  type = string
+}

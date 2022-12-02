@@ -23,6 +23,7 @@ module "service-account" {
   source     = "./modules/service-account"
   project    = local.project
   account_id = var.account_id
+  name       = var.name
   members    = var.members
   roles      = var.roles
 }
@@ -97,4 +98,14 @@ module "instance-group" {
   cooldown-period       = var.cooldown-period
   target                = var.target
   depends_on            = [module.packer]
+}
+module "load-balancer" {
+  source              = "./modules/load-balancer"
+  name                = var.name
+  redirect-port-range = var.redirect-port-range
+  https-port-range    = var.https-port-range
+  domain              = var.domain
+  instance-group      = module.instance-group.instance-group
+  health-check        = module.instance-group.health-check
+  capacity-scaler     = var.capacity-scaler
 }
