@@ -25,8 +25,7 @@ resource "null_resource" "wp-packer-destroy" {
   provisioner "local-exec" {
     when       = destroy
     command    = <<EOF
-gcloud compute images delete $(self.triggers.image) \
-sleep 5
+gcloud compute images delete ${self.triggers.image} -q \
 EOF
     on_failure = continue
   }

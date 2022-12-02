@@ -1,9 +1,4 @@
-data "template_file" "startup_script" {
-  template = file("${var.startup-script-path}")
-  vars = {
-    bucket = var.bucket
-  }
-}
+
 resource "google_compute_instance_template" "wordpress-template" {
   name           = "${var.name}-image"
   tags           = var.instance-tags
@@ -29,7 +24,9 @@ resource "google_compute_instance_template" "wordpress-template" {
     email  = var.service-account-email
     scopes = ["cloud-platform"]
   }
-  metadata_startup_script = file("${var.startup-script-path}")
+  metadata_startup_script = templatefile(var.startup-script-path, {
+    bucket = var.bucket
+  })
 }
 
 resource "google_compute_health_check" "wp-healthcheck" {
@@ -46,7 +43,7 @@ resource "google_compute_health_check" "wp-healthcheck" {
 
 resource "google_compute_region_instance_group_manager" "wordpress-ig" {
   name                      = "${var.name}-ig"
-  base_instance_name        = "${var.name}"
+  base_instance_name        = var.name
   region                    = var.region
   distribution_policy_zones = var.ig-zones
 

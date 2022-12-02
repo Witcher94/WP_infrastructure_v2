@@ -124,29 +124,29 @@ variable "members" {
 }
 #input variables for secret-manager module
 variable "length" {
-  type    = number
+  type        = number
   description = "The secret length"
-  default = 10
+  default     = 10
 }
 variable "min_upper" {
-  type    = number
+  type        = number
   description = "Min number of upper literals"
-  default = 2
+  default     = 2
 }
 variable "min_lower" {
-  type    = number
+  type        = number
   description = "min number of lower literals"
-  default = 2
+  default     = 2
 }
 variable "min_numeric" {
-  type    = number
+  type        = number
   description = "min number of numbers in secret"
-  default = 2
+  default     = 2
 }
 variable "min_special" {
-  type    = number
+  type        = number
   description = "min number of special symbols in secret"
-  default = 2
+  default     = 2
 }
 variable "secret_id" {
   type        = string
@@ -154,9 +154,9 @@ variable "secret_id" {
   default     = "wp-secret"
 }
 variable "labels" {
-  type    = string
+  type        = string
   description = "Defined labels for the secret"
-  default = "first_secret"
+  default     = "first_secret"
 }
 #Input Variables for cloud-sql module
 variable "db-node-name" {
@@ -257,22 +257,22 @@ variable "unhealthy" {
   default     = 5
 }
 variable "max-replicas" {
-  type=number
+  type        = number
   description = ""
-  default = 3
+  default     = 3
 }
 variable "min-replicas" {
-  type = number
+  type        = number
   description = ""
-  default = 1
+  default     = 1
 }
 variable "cooldown-period" {
-  type = number
+  type        = number
   description = ""
-  default = 60
+  default     = 60
 }
 variable "target" {
-  type = number
+  type        = number
   description = ""
-  default = 0.9
+  default     = 0.9
 }

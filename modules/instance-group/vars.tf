@@ -47,7 +47,7 @@ variable "unhealthy" {
   type = number
 }
 variable "max-replicas" {
-  type=number
+  type = number
 }
 variable "min-replicas" {
   type = number
