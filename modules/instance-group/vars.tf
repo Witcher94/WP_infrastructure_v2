@@ -46,3 +46,15 @@ variable "healthy" {
 variable "unhealthy" {
   type = number
 }
+variable "max-replicas" {
+  type=number
+}
+variable "min-replicas" {
+  type = number
+}
+variable "cooldown-period" {
+  type = number
+}
+variable "target" {
+  type = number
+}

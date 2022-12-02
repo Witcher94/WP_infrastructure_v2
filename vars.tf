@@ -104,95 +104,95 @@ variable "rules" {
       deny = []
     }
   }
-  description = ""
+  description = "Coma separated map, to add new rule copy an example above"
 }
 #Input Variables for service-account module
 variable "account_id" {
   type        = string
-  description = ""
+  description = "standard id for service account"
   default     = "wp-service-account"
 }
 variable "roles" {
   type        = set(string)
-  description = "roles"
+  description = "defined roles"
   default     = ["roles/iap.tunnelResourceAccessor", "roles/compute.instanceAdmin.v1", "roles/iam.serviceAccountUser", "roles/storage.admin"]
 }
 variable "members" {
   type        = list(string)
-  description = ""
+  description = "Who will achieve the roles"
   default     = [""]
 }
 #input variables for secret-manager module
 variable "length" {
   type    = number
+  description = "The secret length"
   default = 10
 }
 variable "min_upper" {
   type    = number
+  description = "Min number of upper literals"
   default = 2
 }
 variable "min_lower" {
   type    = number
+  description = "min number of lower literals"
   default = 2
 }
 variable "min_numeric" {
   type    = number
+  description = "min number of numbers in secret"
   default = 2
 }
 variable "min_special" {
   type    = number
+  description = "min number of special symbols in secret"
   default = 2
 }
 variable "secret_id" {
   type        = string
-  description = "wp-secret"
+  description = "id of the secret"
   default     = "wp-secret"
 }
 variable "labels" {
   type    = string
+  description = "Defined labels for the secret"
   default = "first_secret"
 }
 #Input Variables for cloud-sql module
 variable "db-node-name" {
   type        = string
-  description = ""
+  description = "Name of each node in mssql cluster"
   default     = "wp-node"
 }
 variable "db-version" {
   type        = string
-  description = ""
+  description = "Version of the mssql can be also MYSQL_8_0 or MYSQL_5_6"
   default     = "MYSQL_5_7"
 }
 variable "deletion_protection" {
   type        = bool
-  description = ""
+  description = "protection for deletetion databases if set True"
   default     = false
 }
 variable "tier" {
   type        = string
-  description = ""
+  description = "Standard DB machine tier "
   default     = "db-f1-micro"
 }
 variable "ipv4_enabled" {
   type        = bool
-  description = ""
+  description = "If needed external IP set to True"
   default     = false
 }
 variable "db-name" {
   type        = string
-  description = ""
+  description = "Database name"
   default     = "wp-database"
 }
 variable "db-username" {
   type        = string
-  description = ""
+  description = "Database user"
   default     = "wp-user"
-}
-#Cloud storage module
-variable "bucket-name" {
-  type        = string
-  description = ""
-  default     = "wp-bucket"
 }
 #Packer image
 variable "image-name" {
@@ -255,4 +255,24 @@ variable "unhealthy" {
   type        = number
   description = ""
   default     = 5
+}
+variable "max-replicas" {
+  type=number
+  description = ""
+  default = 3
+}
+variable "min-replicas" {
+  type = number
+  description = ""
+  default = 1
+}
+variable "cooldown-period" {
+  type = number
+  description = ""
+  default = 60
+}
+variable "target" {
+  type = number
+  description = ""
+  default = 0.9
 }

@@ -92,5 +92,9 @@ module "instance-group" {
   timeout               = var.timeout
   healthy               = var.healthy
   unhealthy             = var.unhealthy
+  max-replicas = var.max-replicas
+  min-replicas = var.min-replicas
+  cooldown-period = var.cooldown-period
+  target = var.target
   depends_on            = [module.packer]
 }
