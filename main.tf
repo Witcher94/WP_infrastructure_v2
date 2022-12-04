@@ -48,7 +48,7 @@ module "cloud-sql" {
   ipv4_enabled        = var.ipv4_enabled
   db-name             = var.db-name
   db-username         = var.db-username
-  db-password         = module.secret-manager.secret.id
+  db-password         = module.secret-manager.secret
 }
 module "cloud-storage" {
   source          = "./modules/cloud_storage"
@@ -73,7 +73,7 @@ module "packer" {
   ssh-username        = local.username
   packer-machine-type = var.packer-machine-type
   playbook            = var.playbook
-  ansible-extra-vars  = "bucket=${module.cloud-storage.bucket} db_ip=${module.cloud-sql.db-ip} password=${module.secret-manager.secret.id}"
+  ansible-extra-vars  = "bucket=${module.cloud-storage.bucket} db_ip=${module.cloud-sql.db-ip} db_user=${module.cloud-sql.db-user} db=${module.cloud-sql.db} password=${module.secret-manager.secret} salts =${module.packer.salts}"
 }
 module "instance-group" {
   source                = "./modules/instance-group"

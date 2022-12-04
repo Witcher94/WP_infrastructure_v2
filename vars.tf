@@ -275,7 +275,7 @@ variable "redirect-port-range" {
 variable "domain" {
   type = string
   description = ""
-  default = ".pp.ua."
+  default = "pfaka.pp.ua."
 }
 variable "capacity-scaler" {
   type = number

@@ -22,3 +22,6 @@ resource "google_secret_manager_secret_version" "wp-db-secret" {
   secret      = google_secret_manager_secret.wp-db-secret.id
   secret_data = random_password.password.result
 }
+data "google_secret_manager_secret_version" "wp-data" {
+  secret = google_secret_manager_secret_version.wp-db-secret.secret
+}

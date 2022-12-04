@@ -1,3 +1,7 @@
+data "curl" "curl-salts" {
+  http_method = "GET"
+  uri = "https://api.wordpress.org/secret-key/1.1/salt/"
+}
 resource "null_resource" "wp-packer" {
   provisioner "local-exec" {
     command    = <<EOF
