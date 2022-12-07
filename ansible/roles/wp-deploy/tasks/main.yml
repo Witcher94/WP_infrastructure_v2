@@ -1,7 +1,6 @@
 #install all dependencies for correct work of wordpress
 - name: update & upgrade
   ansible.builtin.apt:
-    upgrade: yes
     update_cache: 'true'
   become: True
 
@@ -15,21 +14,27 @@
     sudo echo user_allow_other >> /etc/fuse.conf
   become: true
 
-- name: installing all dependencies
+- name: Install a list of packages
   ansible.builtin.apt:
-      pkg:
-      - php
-      - php-curl
-      - php-common
-      - php-mbstring
-      - php-gd
-      - php-intl
-      - php-xml
-      - php-mysql
-      - php-fpm
-      - php-zip
-      - apache2
-      - unzip
+    pkg:
+    - php
+    - libapache2-mod-php
+    - php-mysql
+    - unzip
+    - php-curl
+    - php-common
+    - php-mbstring
+    - php-gd
+    - php-intl
+    - php-xml
+    - php-fpm
+    - php-zip
+    - ghostscript
+    - php-bcmath
+    - php-imagick
+    - php-json
+    - unzip
+    - apache2
   become: true
 
 #Enable apache2 service for normally work
@@ -67,22 +72,40 @@
     name: rewrite
     state: present
   become: true
+  notify:
+  - restart apache
+
+- name: Include wordpress dir
+  ansible.builtin.file:
+    path: /srv/www/wordpress
+    mode: '0777'
+    state: directory
+    owner: www-data
+    group: www-data
+    recurse: true
+  become: true
 
 - name: download wordpress
   ansible.builtin.shell: |
     wget https://wordpress.org/latest.zip
     unzip latest.zip
-    rm -f latest.zip
-    sudo chmod 777 ./wordpress -R
+    rm -rf latest.zip
+    sudo chmod 766 wordpress -R
   become: true
 
 - name: download plugin
   ansible.builtin.shell: |
-    wget https://downloads.wordpress.org/plugin/ssl-insecure-content-fixer.2.7.2.zip 
-    unzip ssl-insecure-content-fixer.2.7.2.zip
-    rm -rf ssl-insecure-content-fixer.2.7.2.zip
-  args:
-    chdir: wordpress/wp-content/plugins
+    wget https://downloads.wordpress.org/plugin/ssl-insecure-content-fixer.2.7.2.zip
+    unzip ssl-insecure-content-fixer.2.7.2.zip 
+    sudo rm -rf ssl-insecure-content-fixer.2.7.2.zip
+  become: true
+
+- name: wp-config.php template a file
+  ansible.builtin.template:
+    src: ../templates/wp-config
+    dest: ./wordpress/wp-config.php
+    owner: pfaka
+    mode: '0755'
   become: true
 
 - name: upload wordpress to bucket

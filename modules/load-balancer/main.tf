@@ -18,7 +18,7 @@ resource "google_compute_managed_ssl_certificate" "certificate" {
   name = "${var.name}-certificate"
 
   managed {
-    domains = ["${var.domain}", "www.${var.domain}."]
+    domains = ["${var.domain}.", "www.${var.domain}."]
   }
 }
 resource "google_compute_url_map" "url-map" {
@@ -47,32 +47,33 @@ resource "google_compute_url_map" "http-redirect" {
     https_redirect         = true // this is the magic
   }
 }
-
-resource "google_compute_target_http_proxy" "http-redirect" {
-  name    = "${var.name}-proxy"
-  url_map = google_compute_url_map.http-redirect.self_link
-}
-
 resource "google_compute_global_forwarding_rule" "http-redirect" {
   name       = "${var.name}-redirect-forwarding-rule"
   target     = google_compute_target_http_proxy.http-redirect.self_link
   ip_address = google_compute_global_address.global-ip-wordpress.address
+  port_range = 80
 }
-resource "google_dns_managed_zone" "dns-zone" {
-  name     = "pfaka-pp"
-  dns_name = var.domain
+resource "google_compute_target_http_proxy" "http-redirect" {
+  name    = "${var.name}-proxy"
+  url_map = google_compute_url_map.http-redirect.self_link
 }
+#resource "google_dns_managed_zone" "dns-zone" {
+#  name     = "pfaka-pp"
+#  dns_name = var.domain
+#}
 resource "google_dns_record_set" "dns-record" {
-  managed_zone = google_dns_managed_zone.dns-zone.name
-  name         = var.domain
+  managed_zone = var.managed-zone
+  name         = "${var.domain}."
   type         = "A"
   rrdatas      = [google_compute_global_address.global-ip-wordpress.address]
   ttl          = 300
 }
 resource "google_dns_record_set" "dns-cname-record" {
-  managed_zone = google_dns_managed_zone.dns-zone.name
+  managed_zone = var.managed-zone
   name         = "www.${var.domain}."
   type         = "CNAME"
-  rrdatas      = ["${var.domain}"]
+  rrdatas      = ["${var.domain}."]
   ttl          = 300
 }
+
+

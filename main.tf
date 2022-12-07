@@ -59,12 +59,12 @@ module "cloud-storage" {
   depends_on      = [module.cloud-sql]
 }
 resource "local_file" "sa-keyfile" {
-  filename = "../${var.account_file}"
+  filename = "./${var.account_file}"
   content  = base64decode(module.service-account.service-account-key)
 }
 module "packer" {
   source              = "./modules/packer"
-  account-file        = "../${var.account_file}"
+  account-file        = "./${var.account_file}"
   subnet              = module.subnet.subnets["private"].id
   project             = local.project
   zone                = local.zone
@@ -73,7 +73,7 @@ module "packer" {
   ssh-username        = local.username
   packer-machine-type = var.packer-machine-type
   playbook            = var.playbook
-  ansible-extra-vars  = "bucket=${module.cloud-storage.bucket} db_ip=${module.cloud-sql.db-ip} db_user=${module.cloud-sql.db-user} db=${module.cloud-sql.db} password=${module.secret-manager.secret} salts =${module.packer.salts}"
+  ansible-extra-vars  = "bucket=${module.cloud-storage.bucket} db_ip=${module.cloud-sql.db-ip} db_user=${module.cloud-sql.db-user} db=${module.cloud-sql.db } password=${module.secret-manager.secret}"
 }
 module "instance-group" {
   source                = "./modules/instance-group"
@@ -108,4 +108,5 @@ module "load-balancer" {
   instance-group      = module.instance-group.instance-group
   health-check        = module.instance-group.health-check
   capacity-scaler     = var.capacity-scaler
+  managed-zone        = var.managed-zone
 }

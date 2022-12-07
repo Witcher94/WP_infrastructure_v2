@@ -6,9 +6,9 @@ packer {
     }
   }
 }
-#variable "account_file" {
-#  type = string
-#}
+variable "account_file" {
+  type = string
+}
 
 variable "priv-subnet" {
   type = string
@@ -57,7 +57,7 @@ variable "machine-type" {
 
 source "googlecompute" "conf" {
   project_id                   = var.project
-#  account_file                 = var.account_file
+  account_file                 = var.account_file
   source_image                 = var.source-image
   machine_type                 = var.machine-type
   ssh_username                 = var.username

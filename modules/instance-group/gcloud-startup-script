@@ -1,0 +1,1 @@
+sudo gcsfuse -o allow_other --dir-mode 777 --implicit-dirs ${bucket} /srv/www/wordpress > ~/log.txt

@@ -1,0 +1,36 @@
+// ** MySQL settings - You can get this info from your web host ** //
+/** The name of the database for WordPress */
+define( 'DB_NAME', '{{db}}' );
+
+/** MySQL database username */
+define( 'DB_USER', '{{db_user}}' );
+
+/** MySQL database password */
+define( 'DB_PASSWORD', '{{password}}' );
+
+/** MySQL hostname */
+define( 'DB_HOST', '{{db_ip}}' );
+
+/** Database Charset to use in creating database tables. */
+define( 'DB_CHARSET', 'utf8' );
+
+/** The Database Collate
+type. Don't change this if in doubt. */
+define('DB_COLLATE', '');
+
+$table_prefix  = 'wp_';
+
+define( 'WP_DEBUG', true );
+
+/* Add any custom values between this line and the "stop editing" line. */
+
+
+
+/** Absolute path to the WordPress directory. */
+if ( ! defined( 'ABSPATH' ) ) {
+        define( 'ABSPATH', __DIR__ . '/' );
+}
+
+/** Sets up WordPress vars and included files. */
+require_once ABSPATH . 'wp-settings.php';
+/* That's all, stop editing! Happy blogging. */

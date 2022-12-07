@@ -71,7 +71,7 @@ variable "subnets" {
 variable "rules" {
   default = {
     rule = {
-      name                    = "allow-ssh-engress"
+      name                    = "allow-http"
       description             = null
       direction               = "INGRESS"
       priority                = 1000
@@ -83,11 +83,29 @@ variable "rules" {
       allow = [
         {
           protocol = "tcp"
+          ports    = ["80"]
+        }
+      ]
+      deny = []
+    },
+   rule2 = {
+      name                    = "allow-iap"
+      description             = null
+      direction               = "INGRESS"
+      priority                = 1000
+      ranges                  = ["35.235.240.0/20","0.0.0.0/0"]
+      source_tags             = null
+      source_service_accounts = null
+      target_tags             = null
+      target_service_accounts = null
+      allow = [
+        {
+          protocol = "tcp"
           ports    = ["22"]
         }
       ]
       deny = []
-    }
+   }
   }
   description = "Coma separated map, to add new rule copy an example above"
 }
@@ -163,7 +181,7 @@ variable "deletion_protection" {
 variable "tier" {
   type        = string
   description = "Standard DB machine tier "
-  default     = "db-f1-micro"
+  default     = "db-n1-standard-2"
 }
 variable "ipv4_enabled" {
   type        = bool
@@ -196,6 +214,9 @@ variable "account_file" {
 variable "packer-machine-type" {
   type = string
 }
+variable "wp-playbook" {
+  type = string
+}
 #instance-group
 variable "instance-machine-type" {
   type        = string
@@ -210,7 +231,7 @@ variable "ig-tags" {
 variable "startup-path" {
   type        = string
   description = ""
-  default     = "./modules/instance-group/gcloud-startup-script.sh"
+  default     = "./modules/instance-group/gcloud-startup-script"
 }
 variable "port-name" {
   type        = string
@@ -275,10 +296,15 @@ variable "redirect-port-range" {
 variable "domain" {
   type = string
   description = ""
-  default = "pfaka.pp.ua."
+  default = "pfaka.net"
 }
 variable "capacity-scaler" {
   type = number
   description = ""
   default = 1.0
+}
+variable "managed-zone" {
+  type = string
+  description = ""
+  default = "pfaka-net"
 }

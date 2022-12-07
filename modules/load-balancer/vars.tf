@@ -18,5 +18,7 @@ variable "health-check" {
 }
 variable "capacity-scaler" {
   type = number
-
+}
+variable "managed-zone" {
+  type = string
 }

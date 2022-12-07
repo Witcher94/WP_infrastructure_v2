@@ -1,11 +1,8 @@
-data "curl" "curl-salts" {
-  http_method = "GET"
-  uri = "https://api.wordpress.org/secret-key/1.1/salt/"
-}
 resource "null_resource" "wp-packer" {
   provisioner "local-exec" {
     command    = <<EOF
 packer build \
+ -var 'account_file=${var.account-file}' \
  -var 'priv-subnet=${var.subnet}' \
  -var 'project=${var.project}'\
  -var 'zone=${var.zone}'\
@@ -18,7 +15,6 @@ packer build \
  packer/packer.pkr.hcl
 sleep 5
 EOF
-    on_failure = continue
   }
 }
 
@@ -31,6 +27,5 @@ resource "null_resource" "wp-packer-destroy" {
     command    = <<EOF
 gcloud compute images delete ${self.triggers.image} -q \
 EOF
-    on_failure = continue
   }
 }
