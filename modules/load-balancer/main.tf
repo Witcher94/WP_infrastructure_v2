@@ -34,6 +34,10 @@ resource "google_compute_backend_service" "wordpress-backend" {
   }
   name          = "${var.name}-backend"
   health_checks = [var.health-check]
+  enable_cdn = true
+  cdn_policy {
+    signed_url_cache_max_age_sec = 600
+  }
 }
 
 #This is a dummy rule for http -> https redirect
@@ -57,19 +61,20 @@ resource "google_compute_target_http_proxy" "http-redirect" {
   name    = "${var.name}-proxy"
   url_map = google_compute_url_map.http-redirect.self_link
 }
-#resource "google_dns_managed_zone" "dns-zone" {
-#  name     = "pfaka-pp"
-#  dns_name = var.domain
-#}
+resource "google_dns_managed_zone" "dns-zone" {
+  count = var.default-managed-zone
+  name     = var.domain
+  dns_name = var.domain
+}
 resource "google_dns_record_set" "dns-record" {
-  managed_zone = var.managed-zone
+  managed_zone = coalesce(var.managed-zone, "${var.domain}")
   name         = "${var.domain}."
   type         = "A"
   rrdatas      = [google_compute_global_address.global-ip-wordpress.address]
   ttl          = 300
 }
 resource "google_dns_record_set" "dns-cname-record" {
-  managed_zone = var.managed-zone
+  managed_zone = coalesce(var.managed-zone, "${var.domain}")
   name         = "www.${var.domain}."
   type         = "CNAME"
   rrdatas      = ["${var.domain}."]

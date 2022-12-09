@@ -73,7 +73,7 @@ module "packer" {
   ssh-username        = local.username
   packer-machine-type = var.packer-machine-type
   playbook            = var.playbook
-  ansible-extra-vars  = "bucket=${module.cloud-storage.bucket} db_ip=${module.cloud-sql.db-ip} db_user=${module.cloud-sql.db-user} db=${module.cloud-sql.db } password=${module.secret-manager.secret}"
+  ansible-extra-vars  = "bucket=${module.cloud-storage.bucket} db_ip=${module.cloud-sql.db-ip} db_user=${module.cloud-sql.db-user} db=${module.cloud-sql.db } dns_name=${var.domain} password=${module.secret-manager.secret.}"
 }
 module "instance-group" {
   source                = "./modules/instance-group"
@@ -100,13 +100,14 @@ module "instance-group" {
   depends_on            = [module.packer]
 }
 module "load-balancer" {
-  source              = "./modules/load-balancer"
-  name                = var.name
-  redirect-port-range = var.redirect-port-range
-  https-port-range    = var.https-port-range
-  domain              = var.domain
-  instance-group      = module.instance-group.instance-group
-  health-check        = module.instance-group.health-check
-  capacity-scaler     = var.capacity-scaler
-  managed-zone        = var.managed-zone
+  source                  = "./modules/load-balancer"
+  name                    = var.name
+  redirect-port-range     = var.redirect-port-range
+  https-port-range        = var.https-port-range
+  domain                  = var.domain
+  instance-group          = module.instance-group.instance-group
+  health-check            = module.instance-group.health-check
+  capacity-scaler         = var.capacity-scaler
+  default-managed-zone    = 0 // if the managed zone is not created by google change to 1 for the creation of DNS-managed-zone
+  managed-zone            = var.managed-zone
 }

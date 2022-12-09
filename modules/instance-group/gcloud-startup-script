@@ -1,1 +1,4 @@
-sudo gcsfuse -o allow_other --dir-mode 777 --implicit-dirs ${bucket} /srv/www/wordpress > ~/log.txt
+sudo mkdir /mnt/html
+sudo gcsfuse --implicit-dirs -o allow_other --dir-mode 777 ${bucket} /mnt/html
+sudo rm -R /var/www/html
+sudo ln -s /mnt/html/ /var/www/

@@ -93,7 +93,7 @@ variable "rules" {
       description             = null
       direction               = "INGRESS"
       priority                = 1000
-      ranges                  = ["35.235.240.0/20","0.0.0.0/0"]
+      ranges                  = ["35.235.240.0/20"]
       source_tags             = null
       source_service_accounts = null
       target_tags             = null

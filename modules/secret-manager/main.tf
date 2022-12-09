@@ -1,7 +1,7 @@
 resource "random_password" "password" {
   length           = var.length
   special          = true
-  override_special = "!#$%&*()-_=+[]{}<>:?"
+  override_special = "!#$%&*()_=+[]{}<>"
   min_upper        = var.min_upper <= 0 ? 0 : var.min_upper
   min_lower        = var.min_lower <= 0 ? 0 : var.min_lower
   min_numeric      = var.min_numeric <= 0 ? 0 : var.min_numeric

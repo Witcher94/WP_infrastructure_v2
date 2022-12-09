@@ -22,3 +22,6 @@ variable "capacity-scaler" {
 variable "managed-zone" {
   type = string
 }
+variable "default-managed-zone" {
+  type = number
+}
