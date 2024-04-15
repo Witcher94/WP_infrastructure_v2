@@ -10,3 +10,7 @@ variable "service-account" {
 variable "prefix" {
   type = string
 }
+variable "role_entity" {
+  type = list(string)
+}
+variable "storage_class" {}

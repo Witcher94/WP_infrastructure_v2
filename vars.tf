@@ -308,3 +308,13 @@ variable "managed-zone" {
   description = ""
   default = "pfaka-net"
 }
+variable "role_entity" {
+  type = list(string)
+  default = []
+  description = "GCS bucket ACL roleset"
+}
+variable "storage_class" {
+  type = string
+  default = ""
+  description = "Storage class options : STANDARD, MULTI_REGIONAL, REGIONAL, NEARLINE, COLDLINE, ARCHIVE"
+}

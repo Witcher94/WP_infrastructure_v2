@@ -57,6 +57,8 @@ module "cloud-storage" {
   region          = local.region
   service-account = module.service-account.service-account
   depends_on      = [module.cloud-sql]
+  role_entity     = var.role_entity
+  storage_class = var.storage_class
 }
 resource "local_file" "sa-keyfile" {
   filename = "./${var.account_file}"
