@@ -1,0 +1,12 @@
+{
+  "entries": [
+    {
+      "entity": "pfaka@softserveinc.com",
+      "role": "OWNER"
+    },
+    {
+      "entity": "pavlo.fakas@gmail.com",
+      "role": "READER"
+    }
+  ]
+}
